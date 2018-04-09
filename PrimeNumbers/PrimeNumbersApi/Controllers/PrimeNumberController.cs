@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PrimeNumbersApi.Models;
 
 namespace PrimeNumbersApi.Controllers
 {
+    [Route("api/prime")]
     public class PrimeNumberController : Controller
     {
-        [HttpGet("api/prime")]
-        public JsonResult GetPrimeNumber()
+        [HttpGet("")]
+        public JsonResult GetPrimeNumbers()
         {
-            return new JsonResult(new List<object>()
+            return new JsonResult
+                (PrimeDataStore.Current.Primes);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetPrimeNumber(int id)
+        {
+            var primeObj=PrimeDataStore.
+                Current.
+                Primes.
+                FirstOrDefault(prime => prime.indexPrime==id);
+            if (primeObj == null)
             {
-                new {id=0, PrimeNumbber=1}
-            });
+                PrimeDto primeTemp = new Models.PrimeDto();
+                primeObj =primeTemp.getPrimeValue(id);
+            }
+            return Ok(primeObj);
         }
         //public IActionResult Index()
         //{
