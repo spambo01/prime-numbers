@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using PrimeNumbersApi.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace PrimeNumbersApi
 {
@@ -16,10 +18,14 @@ namespace PrimeNumbersApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var connectionString = @"Server=(localdb)\ProjectsV13; Database=PrimeNumberDB;Trusted_Connection=True;";
+            services.AddDbContext<PrimeNumberContext>(o=>o.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder
+            app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
