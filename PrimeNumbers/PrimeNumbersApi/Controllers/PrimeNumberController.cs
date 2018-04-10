@@ -4,36 +4,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PrimeNumbersApi.Models;
+using PrimeNumbersApi.Services;
+using PrimeNumbersApi.Entities;
 
 namespace PrimeNumbersApi.Controllers
 {
     [Route("api/prime")]
     public class PrimeNumberController : Controller
     {
-        [HttpGet("")]
-        public JsonResult GetPrimeNumbers()
+        private IPrimeNumberRepository _primeNumberRepository;
+        public PrimeNumberController(IPrimeNumberRepository primeNumberRepository)
         {
-            return new JsonResult
-                (PrimeDataStore.Current.Primes);
+            _primeNumberRepository = primeNumberRepository;
         }
 
         [HttpGet("{id}")]
         public IActionResult GetPrimeNumber(int id)
         {
-            var primeObj=PrimeDataStore.
-                Current.
-                Primes.
-                FirstOrDefault(prime => prime.indexPrime==id);
-            if (primeObj == null)
+            var result = new PrimeNumber();
+            if (_primeNumberRepository.NumberExist(id))
             {
-                PrimeDto primeTemp = new Models.PrimeDto();
-                primeObj =primeTemp.getPrimeValue(id);
+                 result = _primeNumberRepository.GetFromDB(id);
             }
-            return Ok(primeObj);
+            else
+            {
+                result = _primeNumberRepository.GetPrimeNumber(id);
+            }
+            return Ok(result);
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+
     }
 }
