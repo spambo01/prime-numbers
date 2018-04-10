@@ -19,13 +19,13 @@ namespace PrimeNumbersApi
         {
             services.AddMvc();
 
-            var connectionString = @"Server=(localdb)\ProjectsV13; Database=PrimeNumberDB;Trusted_Connection=True;";
+            var connectionString = @"Server=(localdb)\ProjectsV13; Database=PrimeNumDB;Trusted_Connection=True;";
             services.AddDbContext<PrimeNumberContext>(o=>o.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder
-            app, IHostingEnvironment env)
+            app, IHostingEnvironment env, PrimeNumberContext primeNumberContext)
         {
             if (env.IsDevelopment())
             {
@@ -33,9 +33,9 @@ namespace PrimeNumbersApi
             }
             else
             {
-               // app.UseExceptionHandler();
+                app.UseExceptionHandler();
             }
-
+            primeNumberContext.SeedDataForContext();
             app.UseMvc();
 
             //app.Run(async (context) =>

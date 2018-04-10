@@ -9,8 +9,10 @@ namespace PrimeNumbersApi.Entities
     public class PrimeNumber
     {
         [Key]
-        public int indexPrime { get; set; }
+        public int Id { get; set; }
         [Required]
-        public int valuePrime { get; set; }
+        public int IndexPrime { get; set; }
+        [Required]
+        public int ValuePrime { get; set; }
     }
 }
