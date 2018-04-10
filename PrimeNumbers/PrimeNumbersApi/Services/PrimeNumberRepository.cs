@@ -17,6 +17,21 @@ namespace PrimeNumbersApi
             _context = context;
         }
 
+
+        public void AddPrimeToDb(int indexPrimeNumber, int valuePrimeNumber)
+        {
+            _context.PrimeNumbers.Add(new PrimeNumber()
+            {
+                IndexPrime = indexPrimeNumber,
+                ValuePrime = valuePrimeNumber
+            });
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+
         public bool NumberExist(int indexPrimeNumber)
         {
             return _context.PrimeNumbers.Any(pn => pn.IndexPrime == indexPrimeNumber);
@@ -24,7 +39,7 @@ namespace PrimeNumbersApi
 
         public PrimeNumber GetFromDB(int indexPrimeNumber)
         {
-            return _context.PrimeNumbers.Where(pn => pn.IndexPrime == indexPrimeNumber).FirstOrDefault();           
+            return _context.PrimeNumbers.Where(pn => pn.IndexPrime == indexPrimeNumber).FirstOrDefault();
         }
 
         public PrimeNumber GetPrimeNumber(int indexPrimeNumber)

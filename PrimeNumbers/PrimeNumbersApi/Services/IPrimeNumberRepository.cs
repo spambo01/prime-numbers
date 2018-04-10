@@ -11,5 +11,7 @@ namespace PrimeNumbersApi.Services
         PrimeNumber GetPrimeNumber(int primeNumberIndex);
         bool NumberExist(int indexPrimeNumber);
         PrimeNumber GetFromDB(int indexPrimeNumber);
+        void AddPrimeToDb(int indexPrimeNumber, int valuePrimeNumber);
+        bool Save();
     }
 }
